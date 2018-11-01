@@ -8,4 +8,5 @@ Trying to master [Golang](https://golang.org).
 
 ## TODO
 
-* Run last code give the input and compare the output
+ ☑️ Find last source code (by name), compile it and test it. (run-last.sh)
+ ⬜️ Start a design pattern book.
