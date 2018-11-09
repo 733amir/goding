@@ -1,19 +1,22 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"strings"
 )
 
 func main() {
-	scanner, isBeginning := bufio.NewScanner(os.Stdin), true
-	for scanner.Scan() {
-		text := scanner.Text() + "\n"
+	buffer, isBeginning := make([]byte, 32), true
+	for {
+		characterCount, err := os.Stdin.Read(buffer)
+		if characterCount == 0 || err != nil {
+			break
+		}
+
 		output := strings.Builder{}
-		for t := range text {
-			if text[t] == '"' {
+		for i := 0; i < characterCount; i++ {
+			if buffer[i] == '"' {
 				if isBeginning {
 					output.WriteString("``")
 				} else {
@@ -21,7 +24,7 @@ func main() {
 				}
 				isBeginning = !isBeginning
 			} else {
-				output.WriteByte(text[t])
+				output.WriteByte(buffer[i])
 			}
 		}
 		fmt.Print(output.String())

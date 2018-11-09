@@ -1,3 +1,7 @@
 .idea/*
 binary
-output
+input-*
+expected-*
+output-*
+uva
+*.pdf
