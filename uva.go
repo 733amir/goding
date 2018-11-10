@@ -11,6 +11,7 @@ import (
 	"path"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -107,6 +108,7 @@ func getTestCases(problemNumber int, dirpath string) error {
 
 	// Finding all test cases for this problem.
 	c := colly.NewCollector()
+	c.SetRequestTimeout(1*time.Minute)
 	c.OnHTML("a[data-id]", func(anchor *colly.HTMLElement) {
 		if anchor.ChildText("span") != "" {
 			return
@@ -136,6 +138,7 @@ func getTestCases(problemNumber int, dirpath string) error {
 	for i := range testCaseIds {
 		// Get input of test case
 		c := colly.NewCollector()
+		c.SetRequestTimeout(1*time.Minute)
 		c.OnResponse(func(response *colly.Response) {
 			temp := uDebugInput{}
 			err = json.Unmarshal(response.Body, &temp)
@@ -154,6 +157,7 @@ func getTestCases(problemNumber int, dirpath string) error {
 
 		// Get output of test case
 		c = colly.NewCollector()
+		c.SetRequestTimeout(1*time.Minute)
 		c.OnHTML("textarea[id='edit-output-data']", func(textarea *colly.HTMLElement) {
 			expectedCases[i] = textarea.Text
 		})
